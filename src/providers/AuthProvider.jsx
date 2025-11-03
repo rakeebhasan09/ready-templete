@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import {
+	createUserWithEmailAndPassword,
 	GoogleAuthProvider,
 	onAuthStateChanged,
 	signInWithPopup,
@@ -19,6 +20,11 @@ const AuthProvider = ({ children }) => {
 		return signInWithPopup(auth, googleProvider);
 	};
 
+	// Registraion via Email & Password
+	const emailPasswordRegistration = (email, password) => {
+		return createUserWithEmailAndPassword(auth, email, password);
+	};
+
 	// Logout User
 	const loggedOut = () => {
 		return signOut(auth);
@@ -34,7 +40,14 @@ const AuthProvider = ({ children }) => {
 		return () => unsubscribe();
 	}, []);
 
-	const authInfo = { googleLogin, user, setUser, loading, loggedOut };
+	const authInfo = {
+		googleLogin,
+		emailPasswordRegistration,
+		user,
+		setUser,
+		loading,
+		loggedOut,
+	};
 
 	return <AuthContext value={authInfo}>{children}</AuthContext>;
 };

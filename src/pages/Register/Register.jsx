@@ -1,12 +1,80 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SocialLogin from "../../shared/SocialLogin/SocialLogin";
+import { AuthContext } from "../../contexts/AuthContext";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Register = () => {
 	const [show, setShow] = useState(false);
+	const { setUser, emailPasswordRegistration } = use(AuthContext);
+	const navigate = useNavigate();
+	// Handle Registration
 	const handleRegistration = (e) => {
 		e.preventDefault();
+		const name = e.target.name.value;
+		const email = e.target.email.value;
+		const photo = e.target.photo.value;
+		const password = e.target.password.value;
+
+		// Name Regex Pattern
+		const namePatter = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+		if (!namePatter.test(name)) {
+			toast.warn("Name Content Letters Only!");
+			return;
+		}
+
+		// Email Regex Pattern
+		const emailPattern = /^[A-Za-z0-9._%+-]+@gmail\.com$/;
+		if (!emailPattern.test(email)) {
+			toast.warn("You must need to provide ends with @gmail.com!");
+			return;
+		}
+
+		// Photo Validation
+		if (!photo) {
+			toast.warn("You must need to provide Photo URL");
+			return;
+		}
+
+		// Password Regex Pattern
+		const passwordPattern =
+			/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#+=^()_-])[A-Za-z\d@$!%*?&#+=^()_-]{6,}$/;
+		if (!passwordPattern.test(password)) {
+			Swal.fire({
+				title: "Wrong Password Format!",
+				text: "Password must be at least 6 characters, one uppercase, one lowercase, one number, and one special character",
+				icon: "error",
+			});
+			return;
+		}
+
+		emailPasswordRegistration(email, password)
+			.then((result) => {
+				if (result.user) {
+					result.user.displayName = name;
+					result.user.photoURL = photo;
+					setUser(result.user);
+					e.target.reset();
+					navigate("/");
+					Swal.fire({
+						position: "center",
+						icon: "success",
+						title: "Registration Successfull.",
+						showConfirmButton: false,
+						timer: 1500,
+					});
+				}
+			})
+			.catch((error) => {
+				const message = error.message;
+				const modifiedMessage = message
+					.split("/")[1]
+					.replaceAll("-", " ")
+					.replace(")", "");
+				toast.error(modifiedMessage);
+			});
 	};
 	return (
 		<section className="py-10 md:py-20">
@@ -16,7 +84,7 @@ const Register = () => {
 						Register Now!
 					</h1>
 					<p className="text-center ">
-						Don't have an account?{" "}
+						Already have an account?{" "}
 						<Link to="/login" className="gradient-text">
 							Login Now
 						</Link>
