@@ -1,7 +1,26 @@
-import React from "react";
+import React, { use } from "react";
 import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+	const { user, loggedOut } = use(AuthContext);
+	// Handle Log Out
+	const handleLogOut = () => {
+		loggedOut()
+			.then(() => {
+				toast.success("Logged Out Successfully!");
+			})
+			.catch((error) => {
+				const message = error.message;
+				const modifiedMessage = message
+					.split("/")[1]
+					.replaceAll("-", " ")
+					.replace(")", "");
+				toast.error(modifiedMessage);
+			});
+	};
+
 	const links = (
 		<>
 			<li>
@@ -85,7 +104,8 @@ const Navbar = () => {
 					{/* Menu End */}
 					<div className="navbar-end">
 						<div className="flex items-center gap-3">
-							{/* <div className="dropdown dropdown-end w-[45px] h-[45px]">
+							{user ? (
+								<div className="dropdown dropdown-end w-[45px] h-[45px]">
 									<div
 										tabIndex={0}
 										role="button"
@@ -94,47 +114,51 @@ const Navbar = () => {
 										<div className="w-[45px] h-[45px] rounded-full">
 											<img
 												className="w-full"
-												alt="Tailwind CSS Navbar component"
-												src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+												alt={user.displayName}
+												src={user.photoURL}
 											/>
 										</div>
 									</div>
 									<ul
 										tabIndex="-1"
-										className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+										className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 p-2 shadow"
 									>
 										<li>
 											<a className="text-[16px]">
-												Profile
+												{user.displayName}
 											</a>
 										</li>
 										<li>
 											<a className="text-[16px]">
-												Settings
+												{user.email}
 											</a>
 										</li>
 										<li>
-											<a className="text-[16px]">
+											<a
+												onClick={handleLogOut}
+												className="text-[16px]"
+											>
 												Logout
 											</a>
 										</li>
 									</ul>
-								</div> */}
-
-							<>
-								<Link
-									to="/login"
-									className="btn btn-outline btn-primary"
-								>
-									Login
-								</Link>
-								<Link
-									to="/register"
-									className="btn btn-primary"
-								>
-									Register
-								</Link>
-							</>
+								</div>
+							) : (
+								<>
+									<Link
+										to="/login"
+										className="btn btn-outline btn-primary"
+									>
+										Login
+									</Link>
+									<Link
+										to="/register"
+										className="btn btn-primary"
+									>
+										Register
+									</Link>
+								</>
+							)}
 						</div>
 					</div>
 				</div>

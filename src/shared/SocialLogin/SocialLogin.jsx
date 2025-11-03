@@ -1,8 +1,33 @@
+import { use } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { toast } from "react-toastify";
+
 const SocialLogin = () => {
+	const { googleLogin, setUser } = use(AuthContext);
+	// Handle Google Login
+	const handleGoogleLogin = () => {
+		googleLogin()
+			.then((result) => {
+				setUser(result.user);
+				toast.success("Login Successfull!");
+			})
+			.catch((error) => {
+				const message = error.message;
+				const modifiedMessage = message
+					.split("/")[1]
+					.replaceAll("-", " ")
+					.replace(")", "");
+				toast.error(modifiedMessage);
+			});
+	};
+
 	return (
 		<div className="flex flex-col gap-3">
 			{/* Google */}
-			<button className="btn bg-white text-black border-[#e5e5e5]">
+			<button
+				onClick={handleGoogleLogin}
+				className="btn bg-white text-black border-[#e5e5e5]"
+			>
 				<svg
 					aria-label="Google logo"
 					width="16"
