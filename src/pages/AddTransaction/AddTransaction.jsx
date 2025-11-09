@@ -1,11 +1,16 @@
 import { Plus, Calendar } from "lucide-react";
-import { use, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const AddTransaction = () => {
-	const { user } = use(AuthContext);
+	const { user } = useAuth();
 	const [type, setType] = useState("");
 	const [category, setCategory] = useState("");
+	const axiosInstance = useAxios();
+	const navigate = useNavigate();
 	const incomeCategories = [
 		"Salary",
 		"Freelance",
@@ -23,6 +28,42 @@ const AddTransaction = () => {
 		"Education",
 		"Other",
 	];
+
+	// Handel Add Transaction
+	const handleAddTransaction = (e) => {
+		e.preventDefault();
+		const transaction_type = type;
+		const transaction_category = category;
+		const transaction_amount = e.target.amount.value;
+		const description = e.target.description.value;
+		const transaction_date = e.target.date.value;
+		const transaction_by = user.displayName;
+		const email = user.email;
+
+		const newTransactionData = {
+			transaction_type,
+			transaction_category,
+			transaction_amount,
+			description,
+			transaction_date,
+			transaction_by,
+			email,
+		};
+
+		axiosInstance.post("/transactions", newTransactionData).then((data) => {
+			if (data.data.insertedId) {
+				e.target.reset();
+				navigate("/myTransactions");
+				Swal.fire({
+					position: "center",
+					icon: "success",
+					title: "Your Transaction has been saved",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			}
+		});
+	};
 	return (
 		<div className="min-h-screen flex justify-center items-start py-10 px-4 bg-linear-to-br from-blue-50 to-green-50">
 			<div className="bg-white w-full max-w-2xl shadow-xl rounded-2xl p-8">
@@ -42,7 +83,7 @@ const AddTransaction = () => {
 				</div>
 
 				{/* Form */}
-				<form className="space-y-5">
+				<form onSubmit={handleAddTransaction} className="space-y-5">
 					{/* Transaction Type */}
 					<div>
 						<label className="text-sm font-medium text-gray-700">
@@ -53,6 +94,7 @@ const AddTransaction = () => {
 						<select
 							value={type}
 							onChange={(e) => setType(e.target.value)}
+							name="type"
 							className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 focus:ring-2 focus:ring-blue-400"
 						>
 							<option value="">Select type</option>
@@ -70,6 +112,7 @@ const AddTransaction = () => {
 						<select
 							value={category}
 							onChange={(e) => setCategory(e.target.value)}
+							name="category"
 							className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-gray-50 focus:ring-2 focus:ring-blue-400"
 						>
 							<option value="">
@@ -102,6 +145,7 @@ const AddTransaction = () => {
 						<input
 							type="number"
 							placeholder="0.00"
+							name="amount"
 							className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-400"
 						/>
 					</div>
@@ -114,6 +158,7 @@ const AddTransaction = () => {
 						<textarea
 							placeholder="Add notes about this transaction..."
 							rows="3"
+							name="description"
 							className="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-400"
 						></textarea>
 					</div>
@@ -131,6 +176,7 @@ const AddTransaction = () => {
 							/>
 							<input
 								type="date"
+								name="date"
 								className="w-full bg-transparent outline-none"
 							/>
 						</div>

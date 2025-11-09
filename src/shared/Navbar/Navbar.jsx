@@ -184,13 +184,13 @@ const Navbar = () => {
 								<>
 									<Link
 										to="/login"
-										className="btn btn-outline btn-primary"
+										className="btn btn-outline"
 									>
 										Login
 									</Link>
 									<Link
 										to="/register"
-										className="btn btn-primary hidden sm:flex items-center justify-center"
+										className="btn text-white common-btn hidden sm:flex items-center justify-center"
 									>
 										Register
 									</Link>
