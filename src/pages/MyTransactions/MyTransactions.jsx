@@ -2,11 +2,15 @@ import { Edit2, Eye, Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+import useAxios from "../../hooks/useAxios";
 
 const MyTransactions = () => {
 	const { user } = useAuth();
 	const [transactions, setTransactions] = useState([]);
+	const axiosInstance = useAxios();
 
+	// Get All of my transactions
 	useEffect(() => {
 		fetch(`http://localhost:5170/transactions?email=${user.email}`)
 			.then((res) => res.json())
@@ -15,7 +19,35 @@ const MyTransactions = () => {
 			});
 	}, [user]);
 
-	console.log(transactions);
+	// Delete Transaction
+	const handleDeleteTransaction = (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: `You won't be able to revert this!`,
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				axiosInstance.delete(`/transactions/${id}`).then((data) => {
+					console.log(data.data);
+					if (data.data.deletedCount) {
+						const remaining = transactions.filter(
+							(item) => item._id !== id
+						);
+						setTransactions(remaining);
+						Swal.fire({
+							title: "Deleted!",
+							text: "Your file has been deleted.",
+							icon: "success",
+						});
+					}
+				});
+			}
+		});
+	};
 
 	return (
 		<section className="bg-linear-to-br from-gray-50 to-gray-100 py-10 md:py-14 lg:py-20 px-6">
@@ -90,7 +122,12 @@ const MyTransactions = () => {
 										className="text-gray-600"
 									/>
 								</button>
-								<button className="p-2 rounded-lg border border-gray-200 hover:bg-red-50 transition">
+								<button
+									onClick={() =>
+										handleDeleteTransaction(t._id)
+									}
+									className="p-2 rounded-lg border border-gray-200 hover:bg-red-50 transition"
+								>
 									<Trash2
 										size={14}
 										className="text-red-500"

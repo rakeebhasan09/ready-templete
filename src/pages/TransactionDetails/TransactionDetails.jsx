@@ -6,19 +6,11 @@ import {
 	DollarSign,
 	Edit2,
 } from "lucide-react";
-import { use } from "react";
-import { useLoaderData, useNavigate, useParams } from "react-router";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useLoaderData, useNavigate } from "react-router";
 const TransactionDetails = () => {
-	const transactions = useLoaderData();
+	const transaction = useLoaderData();
 	const navigate = useNavigate();
-	const { user } = use(AuthContext);
 
-	const { id } = useParams();
-
-	const transaction = transactions.find(
-		(transaction) => transaction.id === Number(id)
-	);
 	console.log(transaction);
 	return (
 		<section className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100 py-10 px-6">
@@ -39,7 +31,7 @@ const TransactionDetails = () => {
 						<div className="flex items-center gap-2">
 							<div
 								className={`p-2 rounded-lg ${
-									transaction.type === "income"
+									transaction.transaction_type === "income"
 										? "bg-green-100 text-green-600"
 										: "bg-red-100 text-red-500"
 								}`}
@@ -48,28 +40,28 @@ const TransactionDetails = () => {
 							</div>
 							<span
 								className={`text-xs font-medium px-2 py-0.5 rounded ${
-									transaction.type === "income"
+									transaction.transaction_type === "income"
 										? "bg-blue-100 text-blue-700"
 										: "bg-red-100 text-red-600"
 								}`}
 							>
-								{transaction.type}
+								{transaction.transaction_type}
 							</span>
 						</div>
 
 						<p
 							className={`text-2xl font-bold ${
-								transaction.type === "income"
+								transaction.transaction_type === "income"
 									? "text-green-600"
 									: "text-red-500"
 							}`}
 						>
-							{transaction.amount}
+							${transaction.transaction_amount}
 						</p>
 					</div>
 
 					<h2 className="text-2xl font-semibold text-gray-800 mb-6 capitalize">
-						{transaction.title}
+						{transaction.transaction_category}
 					</h2>
 
 					<hr className="border-gray-200 mb-6" />
@@ -84,7 +76,7 @@ const TransactionDetails = () => {
 							<div>
 								<p className="text-gray-500">Date</p>
 								<p className="font-medium text-gray-800">
-									{transaction.date}
+									{transaction.transaction_date}
 								</p>
 							</div>
 						</div>
@@ -94,7 +86,7 @@ const TransactionDetails = () => {
 							<div>
 								<p className="text-gray-500">Category</p>
 								<p className="font-medium text-gray-800 capitalize">
-									{transaction.title}
+									{transaction.transaction_category}
 								</p>
 							</div>
 						</div>
@@ -122,7 +114,7 @@ const TransactionDetails = () => {
 							<div>
 								<p className="text-gray-500">Transaction ID</p>
 								<p className="font-medium text-gray-800">
-									#{transaction.id}
+									#{transaction._id}
 								</p>
 							</div>
 						</div>
@@ -148,14 +140,14 @@ const TransactionDetails = () => {
 							<p className="text-gray-500">Created By</p>
 							<p className="font-medium text-gray-800">
 								{/* {transaction.createdBy} */}
-								{user.displayName}
+								{transaction.transaction_by}
 							</p>
 						</div>
 						<div>
 							<p className="text-gray-500">Email</p>
 							<p className="font-medium text-gray-800">
 								{/* {transaction.email} */}
-								{user.email}
+								{transaction.email}
 							</p>
 						</div>
 					</div>

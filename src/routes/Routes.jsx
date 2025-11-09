@@ -44,7 +44,8 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "transactionDetails/:id",
-				loader: () => fetch("/transactions.json"),
+				loader: ({ params }) =>
+					fetch(`http://localhost:5170/transactions/${params.id}`),
 				element: (
 					<PrivateRoutes>
 						<TransactionDetails />

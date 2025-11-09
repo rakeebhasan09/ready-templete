@@ -24,9 +24,6 @@ const StatsCards = () => {
 					<p className="text-3xl font-bold text-blue-600 mt-3">
 						$15,420.50
 					</p>
-					<p className="text-sm text-green-600 mt-1">
-						↑ +12.5% from last month
-					</p>
 				</div>
 
 				{/* Total Income */}
@@ -43,7 +40,6 @@ const StatsCards = () => {
 					<p className="text-3xl font-bold text-green-600 mt-3">
 						$25,000.00
 					</p>
-					<p className="text-sm text-gray-500 mt-1">This month</p>
 				</div>
 
 				{/* Total Expenses */}
@@ -60,7 +56,6 @@ const StatsCards = () => {
 					<p className="text-3xl font-bold text-red-600 mt-3">
 						$9,579.50
 					</p>
-					<p className="text-sm text-gray-500 mt-1">This month</p>
 				</div>
 			</div>
 		</div>

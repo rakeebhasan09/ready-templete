@@ -205,7 +205,7 @@ const AddTransaction = () => {
 					{/* Submit Button */}
 					<button
 						type="submit"
-						className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg flex items-center justify-center gap-2 text-sm font-medium mt-4"
+						className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg flex items-center justify-center gap-2 text-sm font-medium mt-4"
 					>
 						<Plus size={18} />
 						Add Transaction
