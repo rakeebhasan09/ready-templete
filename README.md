@@ -1,1 +1,1 @@
-### Ready templete
+### FinEase - Personal Finance Management
