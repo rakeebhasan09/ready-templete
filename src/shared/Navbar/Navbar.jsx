@@ -33,7 +33,7 @@ const Navbar = () => {
 			</li>
 			<li>
 				<NavLink
-					to="/about"
+					to="/addTransaction"
 					className="hover:bg-transparent p-0 text-[16px]"
 				>
 					Add Transaction

@@ -3,10 +3,11 @@ import Root from "../layOuts/RootLayout/Root";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Home from "../pages/Home/Home/Home";
-import About from "../pages/About/About/About";
 import Profile from "../pages/Profile/Profile/Profile";
 import Contact from "../pages/Contact/Contact/Contact";
 import PrivateRoutes from "./PrivateRoutes";
+import AddTransaction from "../pages/AddTransaction/AddTransaction";
+import MyTransactions from "../pages/MyTransactions/MyTransactions";
 
 export const router = createBrowserRouter([
 	{
@@ -26,10 +27,18 @@ export const router = createBrowserRouter([
 				Component: Register,
 			},
 			{
-				path: "about",
+				path: "addTransaction",
 				element: (
 					<PrivateRoutes>
-						<About />
+						<AddTransaction />
+					</PrivateRoutes>
+				),
+			},
+			{
+				path: "myTransactions",
+				element: (
+					<PrivateRoutes>
+						<MyTransactions />
 					</PrivateRoutes>
 				),
 			},
