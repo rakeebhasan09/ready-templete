@@ -8,10 +8,9 @@ import AddTransaction from "../pages/AddTransaction/AddTransaction";
 import MyTransactions from "../pages/MyTransactions/MyTransactions";
 import TransactionDetails from "../pages/TransactionDetails/TransactionDetails";
 import ProfileInfo from "../pages/ProfileInfo/ProfileInfo";
-// import FinancialBarChart from "../pages/Report/FinancialBarChart";
 import UpdateTransaction from "../pages/UpdateTransaction/UpdateTransaction";
 import Error from "../pages/Error/Error";
-import ReportChart from "../pages/Report/ReportChart";
+import Report from "../pages/Report/Report";
 
 export const router = createBrowserRouter([
 	{
@@ -49,7 +48,9 @@ export const router = createBrowserRouter([
 			{
 				path: "transaction/:id",
 				loader: ({ params }) =>
-					fetch(`http://localhost:5170/transactions/${params.id}`),
+					fetch(
+						`https://fin-ease-server.vercel.app/transactions/${params.id}`
+					),
 				element: (
 					<PrivateRoutes>
 						<TransactionDetails />
@@ -59,7 +60,9 @@ export const router = createBrowserRouter([
 			{
 				path: "transaction/update/:id",
 				loader: ({ params }) =>
-					fetch(`http://localhost:5170/transactions/${params.id}`),
+					fetch(
+						`https://fin-ease-server.vercel.app/transactions/${params.id}`
+					),
 				element: (
 					<PrivateRoutes>
 						<UpdateTransaction />
@@ -68,11 +71,9 @@ export const router = createBrowserRouter([
 			},
 			{
 				path: "reports",
-				// loader: () => fetch("http://localhost:5170/transactions"),
 				element: (
 					<PrivateRoutes>
-						{/* <FinancialBarChart /> */}
-						<ReportChart />
+						<Report />
 					</PrivateRoutes>
 				),
 			},

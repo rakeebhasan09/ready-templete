@@ -12,7 +12,9 @@ const MyTransactions = () => {
 
 	// Get All of my transactions
 	useEffect(() => {
-		fetch(`http://localhost:5170/transactions?email=${user.email}`)
+		fetch(
+			`https://fin-ease-server.vercel.app/transactions?email=${user.email}`
+		)
 			.then((res) => res.json())
 			.then((data) => {
 				setTransactions(data);

@@ -18,17 +18,18 @@ const ReportChart = () => {
 
 	useEffect(() => {
 		axios
-			.get(`http://localhost:5170/report-data?email=${user?.email}`) // 🔹 Your API endpoint
+			.get(
+				`https://fin-ease-server.vercel.app/report-data?email=${user?.email}`
+			)
 			.then((res) => {
 				const data = res.data;
 				const grouped = {};
 
-				// 🔹 Group transactions by month
 				data.forEach((item) => {
 					const date = new Date(item.transaction_date);
 					const month = date.toLocaleString("en-US", {
 						month: "long",
-					}); // e.g., "November"
+					});
 					const amount = Number(item.transaction_amount);
 
 					if (!grouped[month]) {
@@ -42,7 +43,6 @@ const ReportChart = () => {
 					}
 				});
 
-				// 🔹 Sort months chronologically
 				const monthOrder = [
 					"January",
 					"February",
@@ -70,54 +70,50 @@ const ReportChart = () => {
 	}, [user]);
 
 	return (
-		<section className="py-20 md:py-14 lg:py-20">
-			<div className="container">
-				<div className="w-full h-[600px] rounded-2xl">
-					<h2 className="text-2xl font-semibold mb-5 text-center">
-						Monthly Income vs Expense
-					</h2>
+		<div className="w-full h-[450px] rounded-2xl">
+			<h2 className="text-2xl font-semibold mb-5 text-center">
+				Monthly Income vs Expense
+			</h2>
 
-					<ResponsiveContainer width="100%" height="100%">
-						<BarChart
-							data={chartData}
-							margin={{ top: 20, right: 30, left: 10, bottom: 5 }}
-						>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="month" />
-							<YAxis />
-							<Tooltip />
-							<Legend
-								payload={[
-									{
-										value: "Income",
-										type: "square",
-										color: "#34d399",
-									},
-									{
-										value: "Expense",
-										type: "square",
-										color: "#f87171",
-									},
-								]}
-							/>
-							{/* ✅ Income first, Expense second */}
-							<Bar
-								dataKey="income"
-								fill="#34d399"
-								name="Income"
-								radius={[6, 6, 0, 0]}
-							/>
-							<Bar
-								dataKey="expense"
-								fill="#f87171"
-								name="Expense"
-								radius={[6, 6, 0, 0]}
-							/>
-						</BarChart>
-					</ResponsiveContainer>
-				</div>
-			</div>
-		</section>
+			<ResponsiveContainer width="100%" height="100%">
+				<BarChart
+					data={chartData}
+					margin={{ top: 20, right: 30, left: 10, bottom: 5 }}
+				>
+					<CartesianGrid strokeDasharray="3 3" />
+					<XAxis dataKey="month" />
+					<YAxis />
+					<Tooltip />
+					<Legend
+						payload={[
+							{
+								value: "Income",
+								type: "square",
+								color: "#34d399",
+							},
+							{
+								value: "Expense",
+								type: "square",
+								color: "#f87171",
+							},
+						]}
+					/>
+
+					<Bar
+						dataKey="income"
+						fill="#34d399"
+						name="Income"
+						radius={[6, 6, 0, 0]}
+					/>
+					<Bar
+						dataKey="expense"
+						fill="#f87171"
+						name="Expense"
+						radius={[6, 6, 0, 0]}
+					/>
+				</BarChart>
+			</ResponsiveContainer>
+		</div>
 	);
 };
 

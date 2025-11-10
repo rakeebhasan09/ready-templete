@@ -9,7 +9,9 @@ const TransactionDetails = () => {
 	const { user } = useAuth();
 
 	useEffect(() => {
-		fetch(`http://localhost:5170/transactions?email=${user.email}`)
+		fetch(
+			`https://fin-ease-server.vercel.app/transactions?email=${user.email}`
+		)
 			.then((res) => res.json())
 			.then((data) => setAllTransactions(data));
 	}, [user]);
@@ -27,7 +29,6 @@ const TransactionDetails = () => {
 	return (
 		<section className="py-10 md:py-14 lg:py-20 px-6">
 			<div className="max-w-3xl mx-auto">
-				{/* Back link */}
 				<button
 					onClick={() => navigate(-1)}
 					className="flex items-center gap-2 text-sm hover:text-blue-600 mb-6"
@@ -38,7 +39,6 @@ const TransactionDetails = () => {
 
 				{/* Card */}
 				<div className="bg-white dark:bg-[#1D232A] rounded-2xl shadow-sm border border-gray-100 p-8">
-					{/* Header */}
 					<div className="flex justify-between items-start mb-6">
 						<div className="flex items-center gap-2">
 							<div
@@ -149,16 +149,12 @@ const TransactionDetails = () => {
 						<div>
 							<p>Created By</p>
 							<p className="font-medium">
-								{/* {transaction.createdBy} */}
 								{transaction.transaction_by}
 							</p>
 						</div>
 						<div>
 							<p>Email</p>
-							<p className="font-medium">
-								{/* {transaction.email} */}
-								{transaction.email}
-							</p>
+							<p className="font-medium">{transaction.email}</p>
 						</div>
 					</div>
 

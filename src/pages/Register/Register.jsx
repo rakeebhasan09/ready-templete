@@ -97,40 +97,40 @@ const Register = () => {
 					<div className="card-body p-0">
 						<form onSubmit={handleRegistration}>
 							<fieldset className="fieldset mt-6">
-								<label className="label text-black font-medium text-[14px]">
+								<label className="label font-medium text-[14px]">
 									Name
 								</label>
 								<input
 									type="text"
-									className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0 text-black"
+									className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0"
 									placeholder="Mariam Swarna"
 									name="name"
 								/>
-								<label className="label text-black font-medium text-[14px]">
+								<label className="label font-medium text-[14px]">
 									Email
 								</label>
 								<input
 									type="email"
-									className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0 text-black"
+									className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0"
 									placeholder="smsowkothasan@gmail.com"
 									name="email"
 								/>
-								<label className="label text-black font-medium text-[14px]">
+								<label className="label font-medium text-[14px]">
 									Image-URL
 								</label>
 								<input
 									type="text"
-									className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0 text-black"
+									className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0"
 									placeholder="Photo URL here"
 									name="photo"
 								/>
-								<label className="label text-black font-medium text-[14px]">
+								<label className="label font-medium text-[14px]">
 									Password
 								</label>
 								<div className="relative">
 									<input
 										type={show ? "text" : "password"}
-										className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0 text-black"
+										className="input outline-none border border-[#E9E9E9] rounded w-full py-2 pl-3 shadow-0"
 										placeholder="*************"
 										name="password"
 									/>
