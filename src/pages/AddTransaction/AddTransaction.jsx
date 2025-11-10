@@ -186,7 +186,7 @@ const AddTransaction = () => {
 					</div>
 
 					{/* User Info Box */}
-					<div className="grid grid-cols-2 gap-6 p-4 rounded-lg mt-4">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-lg mt-4">
 						<div>
 							<p className="text-xs font-medium">User Email</p>
 							<p className="font-semibold">{user.email}</p>
